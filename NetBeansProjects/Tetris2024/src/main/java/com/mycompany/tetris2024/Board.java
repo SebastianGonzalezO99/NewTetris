@@ -5,8 +5,7 @@
 package com.mycompany.tetris2024;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -15,28 +14,83 @@ import javax.swing.*;
  */
 public class Board extends javax.swing.JPanel {
 
+    class MyKeyAdapter extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    if (canMove(currentShape, currentRow, currentCol)) {
+                        currentCol--;
+                    }
+                    repaint();
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (canMove(currentShape, currentRow, currentCol)) {
+                        currentCol++;
+                    }
+                    repaint();
+                    break;
+                case KeyEvent.VK_UP:
+
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (canMove(currentShape, currentRow, currentCol)) {
+                        currentRow++;
+                    }
+                    repaint();
+                    break;
+                default:
+                    break;
+            }
+            repaint();
+        }
+    }
+
     public static final int NUM_ROWS = 22;
     public static final int NUM_COL = 10;
+    public static final int DELTA_TIME = 500; //it's in milliseconds
 
     private Shape currentShape;
     private int currentRow = 5;
     private int currentCol;
     private Timer timer;
+    private MyKeyAdapter keyAdapter;
 
     /**
      * Creates new form Board
      */
     public Board() {
+
         initComponents();
         currentShape = new Shape();
         currentRow = 0;
         currentCol = NUM_COL / 2;
+        keyAdapter = new MyKeyAdapter();
+        addKeyListener(keyAdapter);
+        setFocusable(true);
         timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                tic(); 
+                tic();
             }
         });
+        timer.start();
+    }
+
+    public boolean canMove(Shape shape, int row, int col) {
+        if (col + shape.getMinY() < 0) {
+            return false;
+        }
+        if (col + shape.getMaxX() >= NUM_COL) {
+            return false;
+        }
+        return true;
+    }
+
+    public void tic() {
+        currentRow++;
+        repaint();
     }
 
     @Override
@@ -47,7 +101,7 @@ public class Board extends javax.swing.JPanel {
 
     public void paintCurrentShape(Graphics g) {
         for (int i = 0; i < 4; i++) {
-            if (currentShape.getY(i) >= 0) {
+            if (currentShape.getY(i) + currentRow >= 0) {
                 drawSquare(g, currentRow + currentShape.getY(i),
                         currentCol + currentShape.getX(i), currentShape.getShape());
             }
