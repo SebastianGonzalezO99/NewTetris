@@ -4,9 +4,13 @@
  */
 package com.mycompany.tetris2024;
 
+import java.io.File;
+import java.util.*;
+import javax.sound.sampled.*;
+
 /**
  *
- * @author alu13114532
+ * @author alu10654799
  */
 public class Tetris2024 extends javax.swing.JFrame {
 
@@ -15,6 +19,10 @@ public class Tetris2024 extends javax.swing.JFrame {
      */
     public Tetris2024() {
         initComponents();
+        setLocationRelativeTo(null);
+        board.setScoreInterface(scoreBoard);
+        ConfigDialog configDialog = new ConfigDialog(this, true);
+        configDialog.setVisible(true);
     }
 
     /**
@@ -26,42 +34,57 @@ public class Tetris2024 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scoreBoard1 = new com.mycompany.tetris2024.ScoreBoard();
-        board1 = new com.mycompany.tetris2024.Board();
+        scoreBoard = new com.mycompany.tetris2024.ScoreBoard();
+        jToolBar2 = new javax.swing.JToolBar();
+        jButtonPlay = new javax.swing.JButton();
+        jButtonPause = new javax.swing.JButton();
+        board = new com.mycompany.tetris2024.Board();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        scoreBoard1.setBackground(new java.awt.Color(51, 0, 51));
-        scoreBoard1.setPreferredSize(new java.awt.Dimension(126, 40));
+        scoreBoard.setPreferredSize(new java.awt.Dimension(250, 33));
+        getContentPane().add(scoreBoard, java.awt.BorderLayout.PAGE_END);
 
-        javax.swing.GroupLayout scoreBoard1Layout = new javax.swing.GroupLayout(scoreBoard1);
-        scoreBoard1.setLayout(scoreBoard1Layout);
-        scoreBoard1Layout.setHorizontalGroup(
-            scoreBoard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
-        );
-        scoreBoard1Layout.setVerticalGroup(
-            scoreBoard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
+        jToolBar2.setRollover(true);
 
-        getContentPane().add(scoreBoard1, java.awt.BorderLayout.PAGE_END);
+        jButtonPlay.setText("Play");
+        jButtonPlay.setFocusable(false);
+        jButtonPlay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonPlay.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButtonPlay);
 
-        javax.swing.GroupLayout board1Layout = new javax.swing.GroupLayout(board1);
-        board1.setLayout(board1Layout);
-        board1Layout.setHorizontalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
-        );
-        board1Layout.setVerticalGroup(
-            board1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
-        );
+        jButtonPause.setText("Pause");
+        jButtonPause.setFocusable(false);
+        jButtonPause.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonPause.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPauseActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButtonPause);
 
-        getContentPane().add(board1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jToolBar2, java.awt.BorderLayout.PAGE_START);
+
+        board.setPreferredSize(new java.awt.Dimension(250, 594));
+        getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
+        board.initGame();
+        playRandomAudio();
+    }//GEN-LAST:event_jButtonPlayActionPerformed
+
+    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        board.pauseGame();
+    }//GEN-LAST:event_jButtonPauseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,9 +120,45 @@ public class Tetris2024 extends javax.swing.JFrame {
             }
         });
     }
+    
+    public static void playAudio(String ruta) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                    new File(ruta).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(new LineListener() {
+                @Override
+                public void update(LineEvent event) {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        clip.setFramePosition(0);
+                        clip.start();
+                    }
+                }
+            });
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void playRandomAudio() {
+        String[] rutas = {
+         /*   "src/main/resources/audio/tetris-techno.wav",
+            "src/main/resources/audio/troll.wav",
+            "src/main/resources/audio/argentino.wav",
+            */"src/main/resources/audio/audio.wav",
+        };
+        Random random = new Random();
+        int index = random.nextInt(rutas.length);
+        playAudio(rutas[index]);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mycompany.tetris2024.Board board1;
-    private com.mycompany.tetris2024.ScoreBoard scoreBoard1;
+    private com.mycompany.tetris2024.Board board;
+    private javax.swing.JButton jButtonPause;
+    private javax.swing.JButton jButtonPlay;
+    private javax.swing.JToolBar jToolBar2;
+    private com.mycompany.tetris2024.ScoreBoard scoreBoard;
     // End of variables declaration//GEN-END:variables
 }

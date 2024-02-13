@@ -6,15 +6,30 @@ package com.mycompany.tetris2024;
 
 /**
  *
- * @author alu13114532
+ * @author alu10654799
  */
-public class ScoreBoard extends javax.swing.JPanel {
+public class ScoreBoard extends javax.swing.JPanel implements ScoreInterface {
 
     /**
      * Creates new form ScoreBoard
      */
     public ScoreBoard() {
         initComponents();
+    }
+    
+    public void incrementScore() {
+        int currentScore = ConfigData.getInstance().getScore() + 1;
+        ConfigData.getInstance().setScore(currentScore);
+        updateScoreLabel();
+    }
+    
+    public void reset() {
+        ConfigData.getInstance().setScore(0);
+        updateScoreLabel();
+    }
+    
+    private void updateScoreLabel() {
+        jLabelScore.setText("" + ConfigData.getInstance().getScore());
     }
 
     /**
@@ -26,19 +41,14 @@ public class ScoreBoard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 47, Short.MAX_VALUE)
-        );
+        jLabelScore = new javax.swing.JLabel();
+
+        jLabelScore.setText("0");
+        add(jLabelScore);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelScore;
     // End of variables declaration//GEN-END:variables
 }
