@@ -144,10 +144,8 @@ public class Tetris2024 extends javax.swing.JFrame {
     
     public static void playRandomAudio() {
         String[] rutas = {
-         /*   "src/main/resources/audio/tetris-techno.wav",
-            "src/main/resources/audio/troll.wav",
-            "src/main/resources/audio/argentino.wav",
-            */"src/main/resources/audio/audio.wav",
+            "src/main/resources/audio/4K.wav",
+            "src/main/resources/audio/audio.wav",
         };
         Random random = new Random();
         int index = random.nextInt(rutas.length);
