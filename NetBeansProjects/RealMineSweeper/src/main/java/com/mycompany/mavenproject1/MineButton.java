@@ -21,6 +21,7 @@ public class MineButton extends JButton {
     private static Icon iconButtom = null;
     private static Icon iconButtomPress = null;
     private static MouseAdapter mouseAdapter = null;
+    public static final int BUTTOM_SIZE = 30;
 
     public MineButton(int row, int col) {
         super();
@@ -61,12 +62,12 @@ public class MineButton extends JButton {
     private void setIconMine() {
         if (iconButtom == null) {
             Image image = new ImageIcon(getClass().getResource("/images/boton.jpg")).getImage();
-            Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+            Image newimg = image.getScaledInstance(BUTTOM_SIZE, BUTTOM_SIZE, java.awt.Image.SCALE_SMOOTH);
             iconButtom = new ImageIcon(newimg);
         }
         if(iconButtomPress == null) {
             Image image = new ImageIcon(getClass().getResource("/images/boton_pressed.jpg")).getImage();
-            Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+            Image newimg = image.getScaledInstance(BUTTOM_SIZE, BUTTOM_SIZE, java.awt.Image.SCALE_SMOOTH);
             iconButtomPress = new ImageIcon(newimg);
         }
         setIcon(iconButtom);
