@@ -4,7 +4,10 @@
  */
 package com.mycompany.mavenproject1;
 
+import static com.mycompany.mavenproject1.MineButton.BUTTOM_SIZE;
 import java.awt.GridLayout;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -12,24 +15,45 @@ import java.awt.GridLayout;
  */
 public class Board extends javax.swing.JPanel {
 
+    private int[][] matrix;
+
     /**
      * Creates new form Board
      */
     public Board() {
-        initComponents();
         int numRows = ConfigData.getInstance().getRows();
         int numCols = ConfigData.getInstance().getCols();
-        setLayout(new GridLayout(numRows,numCols));
-        initBoard();
+        setLayout(new GridLayout(numRows, numCols));
+        initMatrix();
     }
-    
+
     public void initBoard() {
         int numRows = ConfigData.getInstance().getRows();
         int numCols = ConfigData.getInstance().getCols();
-        for(int row = 0; row < numRows; row++){
-            for(int col = 0; col < numCols; col++){
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
                 MineButton b = new MineButton(row, col);
                 add(b);
+            }
+        }
+    }
+
+    public void initMatrix() {
+        matrix = new int[ConfigData.getInstance().getRows()][ConfigData.getInstance().getCols()];
+        int numRows = ConfigData.getInstance().getRows();
+        int numCols = ConfigData.getInstance().getCols();
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                matrix[row][col] = 0;
+            }
+        }
+    }
+
+    public void putBombs() {
+        for (int row = 0; row < ConfigData.getInstance().getRows(); row++) {
+            for (int col = 0; col < ConfigData.getInstance().getCols(); col++) {
+                    matrix[row][col] = -1;
+                }
             }
         }
     }

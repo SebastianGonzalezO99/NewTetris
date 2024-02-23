@@ -4,6 +4,8 @@
  */
 package com.mycompany.mavenproject1;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author alu13114532
@@ -14,11 +16,15 @@ public class MineSweeper extends javax.swing.JFrame {
      * Creates new form MineSweeper
      */
     public MineSweeper() {
-        getContentPane().add(new MineButton(0,0));
-        getContentPane().add(new MineButton(0,0));
         initComponents();
         setLocationRelativeTo(null);
-        
+        board1.initBoard();
+        int numRows = ConfigData.getInstance().getRows();
+        int numCols = ConfigData.getInstance().getCols();
+        int width = numCols * MineButton.BUTTOM_SIZE;
+        int height = numRows * MineButton.BUTTOM_SIZE;
+        board1.setPreferredSize(new Dimension(width,height));
+        pack();
     }
 
     /**
@@ -42,6 +48,7 @@ public class MineSweeper extends javax.swing.JFrame {
 
         jToolBar1.setBackground(new java.awt.Color(51, 0, 51));
         jToolBar1.setRollover(true);
+        jToolBar1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         jButton1.setText("jButton1");
         jButton1.setFocusable(false);
@@ -53,7 +60,7 @@ public class MineSweeper extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 0, 102));
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.setPreferredSize(new java.awt.Dimension(400, 30));
+        jPanel1.setPreferredSize(new java.awt.Dimension(30, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
